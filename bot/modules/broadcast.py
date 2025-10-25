@@ -18,6 +18,9 @@ bc_cache = {}
 
 @new_task
 async def broadcast(_, message):
+     if message.from_user.id != OWNER_ID:
+        return await sendMessage(message, "<b>Access Denied:</b> Only the bot owner can use this command!")
+         
     bc_id, forwarded, quietly, deleted, edited = '', False, False, False, False
     if not DATABASE_URL:
         return await sendMessage(message, 'DATABASE_URL not provided!')
@@ -139,4 +142,4 @@ async def broadcast(_, message):
     )
 
 
-bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.BroadcastCommand) & CustomFilters.sudo))
+bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.BroadcastCommand)))
